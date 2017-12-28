@@ -1,4 +1,5 @@
 <?php
+
 	chdir(__DIR__);
 	/*测试*/
 	if (!defined('APP_PATH'))
