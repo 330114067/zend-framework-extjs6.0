@@ -1,5 +1,6 @@
 <?php
 	chdir(__DIR__);
+	/*测试*/
 	if (!defined('APP_PATH'))
 		define ('APP_PATH', __DIR__ . '/');
 	if (!defined('LIB'))
