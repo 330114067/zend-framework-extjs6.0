@@ -1,0 +1,13 @@
+﻿/*  登录 */
+body{background:#ececec url(../image/login-bg.jpg) no-repeat top center !important;}
+.loginform{width:487px; height:292px; margin:0px auto; padding-top:170px;}
+#formbox{padding:115px 0px 0px 180px;}
+.loginformbg{background-color:transparent; border:0px;}
+.loginformbtn{background-color:transparent; border:0px; padding-left:55px;}
+.loginfbar{background-color:transparent;}
+.baizi{color:#FFF; padding:4px 0px 0px 17px}
+.username-ico{background:#ddedfc url(../image/icons/user.png) no-repeat 3px 3px; padding-left:23px;}
+.userpassword-ico{background:#ddedfc url(../image/icons/lock.png) no-repeat 3px 3px; padding-left:23px;}
+
+.copyright{line-height:25px; text-align:right; padding-right:15px; margin-top:24px; color:#00476f;}
+

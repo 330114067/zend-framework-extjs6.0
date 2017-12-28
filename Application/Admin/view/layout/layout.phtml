@@ -1,0 +1,32 @@
+<?php 
+//  echo $this->partial('layout/header');
+//  echo $this->content;
+//  echo $this->partial('layout/footer');
+ ?>
+<html>
+<head>
+<meta charset="utf-8">
+<title>企业管理系统</title>
+<?php echo $this->headLink()
+                        ->prependStylesheet($this->basePath() . '/public/js/ext/classic/theme-triton/resources/theme-triton-all.css')
+                        ->prependStylesheet($this->basePath() . '/public/css/system.css')
+                        ->prependStylesheet($this->basePath() . '/public/css/icon.css')
+                        ->prependStylesheet($this->basePath() . '/public/css/login.css')
+                         ?>
+<?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/public/js/ext/ext-all.js')
+            ->prependFile($this->basePath() . '/public/js/jquery.min.js')
+        ;?>
+</head>
+<body>
+
+
+        <?php
+           
+    
+        
+        echo $this->content;
+        ?>
+
+</body>
+</html>

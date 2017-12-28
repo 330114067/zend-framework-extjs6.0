@@ -1,0 +1,42 @@
+body{font-size:12px;}
+ul,li,dl,dt,dd{list-style:none;}
+.footer{text-align:center; line-height:25px;}
+.header{background-color:#3a6ea5; color:#FFF;}
+
+
+.username-ico{background:url(../image/icons/user.png) no-repeat 3px 2px; padding-left:23px;}
+.userpassword-ico{background:url(../image/icons/lock.png) no-repeat 3px 2px; padding-left:23px;}
+
+.checkcode-ico{background:url(../image/icons/key.png) no-repeat 3px 2px; padding-left:23px;}
+
+#CheckCode{ float:left;}  
+.x-form-code{vertical-align:middle;cursor:pointer; display:block; margin-left:55px; width:150px; height:40px;} 
+
+.header{font-size:14px; font-weight:bold; padding-left:10px; line-height:30px;}
+.footer{text-align:center; line-height:20px; color:#999;}
+.rowspan-grid .x-grid3-body .x-grid3-row {  
+    border:none;  
+    cursor:default;  
+    width:100%;  
+}  
+.rowspan-grid .x-grid3-header .x-grid3-cell{  
+    border-left: 2px solid #fff;  
+}  
+.rowspan-grid .x-grid3-body .x-grid3-row{  
+    overflow: hidden;  
+    border-right: 1px solid #ccc;  
+}  
+.rowspan-grid .x-grid3-body .x-grid3-cell {  
+    border: 1px solid #ccc;  
+    border-top:none;  
+    border-right:none;  
+}  
+.rowspan-grid .x-grid3-body .x-grid3-cell-first {  
+    border-left: 1px solid #fff;  
+}  
+.rowspan-grid .x-grid3-body .rowspan-unborder {  
+    border-bottom:1px solid #fff;  
+}  
+.rowspan-grid .x-grid3-body .rowspan {  
+    border-bottom: 1px solid #ccc;  
+}  
