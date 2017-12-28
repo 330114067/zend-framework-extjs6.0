@@ -5,12 +5,12 @@ Ext.application({
 	autoCreateViewport: false,
 	controllers: [
 		'LoginController',
-		'MainController'
-//		'UserController',
-//		'ConfigNetsetController',
-//		'ConfigDbsetController',
-//		'GradeController',
-//		'FidController'
+		'MainController',
+		'UserController',
+		'ConfigNetsetController',
+		'ConfigDbsetController',
+		'GradeController',
+		'FidController'
 //		'ChartLineController',
 //		'ChartBarController'
 	],
