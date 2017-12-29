@@ -1,7 +1,7 @@
 <?php
 /*huajg*/
 	chdir(__DIR__);
-	/*测试1111*/ 
+	/*测试222*/ 
 	
 	if (!defined('APP_PATH'))
 		define ('APP_PATH', __DIR__ . '/');
