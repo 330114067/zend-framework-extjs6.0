@@ -1,4 +1,5 @@
 <?php
+
 	chdir(__DIR__);
 	if (!defined('APP_PATH'))
 		define ('APP_PATH', __DIR__ . '/');
