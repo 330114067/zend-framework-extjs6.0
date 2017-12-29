@@ -1,5 +1,4 @@
 <?php
-/*huajg*/
 	chdir(__DIR__);
 	/*测试222*/ 
 	
