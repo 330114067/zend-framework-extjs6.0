@@ -47,7 +47,7 @@ class AdminController extends AbstractActionController
           }else{
               $return['msg']='OK';
               $return['success']=true;
-              $return['url']='index';
+              $return['url']='../admin/index';
               //验证码保存到session
               $sessionStorage->offsetSet('user', $units);   
           }
