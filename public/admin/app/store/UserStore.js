@@ -7,10 +7,10 @@ Ext.define('admin.store.UserStore', {
 	proxy:{
 		type: 'ajax',
 		api: {
-			read: 'getInfo',
-			update: 'editInfo',
-			create: 'addInfo',
-			destroy: 'delInfo'
+			read: '../admin/getInfo',
+			update: '../admin/editInfo',
+			create: '../admin/addInfo',
+			destroy: '../admin/delInfo'
 		},
 		reader: {
 			type: 'json',
@@ -22,7 +22,8 @@ Ext.define('admin.store.UserStore', {
 			type: 'json'
 		},
 		actionMethods: {
-			read: 'POST'
+			read: 'POST',
+			writer:'POST'
 		}
 	}
 });

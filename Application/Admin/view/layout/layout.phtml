@@ -12,21 +12,16 @@
                         ->prependStylesheet($this->basePath() . '/public/css/system.css')
                         ->prependStylesheet($this->basePath() . '/public/css/icon.css')
                         ->prependStylesheet($this->basePath() . '/public/css/login.css')
-                         ?>
+                         ;?>
 <?php echo $this->headScript()
-            ->prependFile($this->basePath() . '/public/js/ext/ext-all.js')
-            ->prependFile($this->basePath() . '/public/js/jquery.min.js')
-        ;?>
+            			->prependFile($this->basePath() . '/public/js/ext/ext-all.js')
+						;?>
 </head>
 <body>
 
-
-        <?php
-           
-    
-        
-        echo $this->content;
-        ?>
+<?php
+	echo $this->content;
+?>
 
 </body>
 </html>

@@ -8,7 +8,7 @@ Ext.define('admin.view.login.Login', {
 		autoShow : true,
         layout: 'fit',
 	    initComponent: function(){
-	    	this.src=this.img();
+	    	this.src=imgs();
 	    	this.items= { 
         	xtype: 'form',
         	constrain: true,
@@ -56,14 +56,7 @@ Ext.define('admin.view.login.Login', {
 						var me = this;
 						this.getEl().on('click', function(){
 							var src='';
-							Ext.Ajax.request({
-					            url: "imgcode",    
-					            async: false,   // ASYNC 是否异步( TRUE 异步 , FALSE 同步)
-					            success: function(response, opts) {
-					            	var obj = eval( "(" + response.responseText + ")" );
-					            	src="../../"+obj.imgSrc;
-					            }
-					  		});
+							src=imgs();
 							me.setSrc(src)
 						});
 					}
@@ -88,11 +81,12 @@ Ext.define('admin.view.login.Login', {
 	        };
 	        this.buttonAlign='center',
 		    this.callParent(arguments);
-	    },
-        img:function(){
+	    }
+});
+function imgs(){
         	var src='';
 			Ext.Ajax.request({
-	            url: "imgcode",    
+	            url: "../admin/imgcode",    
 	            async: false,   // ASYNC 是否异步( TRUE 异步 , FALSE 同步)
 	            success: function(response, opts) {
 	            	var obj = eval( "(" + response.responseText + ")" );
@@ -101,4 +95,3 @@ Ext.define('admin.view.login.Login', {
 	  		});
   		 	return src;
         }
-});

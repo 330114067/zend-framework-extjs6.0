@@ -2,7 +2,8 @@
 
 namespace Admin;
 
-
+use Admin\Model\navigation;
+use Admin\Model\navigationTable;
 use Admin\Model\user;
 use Admin\Model\userTable;
 use Admin\Model\fid;
@@ -22,6 +23,7 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $serviceLocator = $e->getApplication()->getServiceManager();
         //json格式注入
         $app = $e->getParam('application');
         $app->getEventManager()->attach('render', array($this, 'registerJsonStrategy'), 100);
@@ -120,6 +122,17 @@ class Module
                 	$resultSetPrototype = new ResultSet();
                 	$resultSetPrototype->setArrayObjectPrototype(new fid());
                 	return new TableGateway('t_fid', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Admin\Model\navigationTable' =>  function($sm) {
+                $tableGateway = $sm->get('navigationTableGateway');
+                $table = new navigationTable($tableGateway);
+                return $table;
+                },
+                'navigationTableGateway' => function ($sm) {
+                $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                $resultSetPrototype = new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new navigation());
+                return new TableGateway('t_navigation', $dbAdapter, null, $resultSetPrototype);
                 },
                 'Zend\Session\SessionManager' => function ($sm) {
                 	$config = $sm->get('config');

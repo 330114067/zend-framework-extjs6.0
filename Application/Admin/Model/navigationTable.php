@@ -2,15 +2,12 @@
 namespace Admin\Model;
 
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Text\Table\Row;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Adapter;
-use Zend\Db\Sql\Sql;
-class fidTable
+class navigationTable
 {
     
     protected $tableGateway;
@@ -20,14 +17,15 @@ class fidTable
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetchAll()
+    public function fetchAll($keyid=null)
     {
-        $resultSet = $this->tableGateway->select();
+    	
+        $resultSet = $this->tableGateway->select(array('keyid'=>$keyid));
 
         return $resultSet;
     }
 
-    public function getFid($id)
+    public function getid($id)
     {
         $rowset = $this->tableGateway->select(array('id' => $id));
         $row = $rowset->current();
@@ -53,7 +51,8 @@ class fidTable
 
         return $row;
     }
-    public function getPaginator($keyword = NULL, $start = 0, $limit= 10, $order = 'ASC'){
+    public function getPaginator($keyword = NULL, $page = 1, $itemsPerPage = 10, $order = 'ASC'){
+
         //新建select对象
         $select = new Select($this->tableGateway->getTable());
         //构建查询条件
@@ -62,19 +61,22 @@ class fidTable
                 $where->like('name', '%' . $keyword . '%');//查询符合特定关键词的结果
             }
         };
-
+		$where=array();
         $select->columns(array("*"))
         ->where($closure);
         if ($order == 'DESC') {
-            $select->order('fid DESC');//按fid倒排序
+            $select->order('id DESC');//按时间倒排序
         } else {
-            $select->order('fid ASC');//按ifd排序
+            $select->order('id ASC');//按标题排序
         }
+        
         $select->limit($limit); // 显示多少条
         $select->offset($start); // 从第几条开始显示
-//         //将返回的结果设置为user的实例 注释另外一种分页（以页数分页）
+        
+        $paginator=$this->tableGateway->selectWith($select);
+//         //将返回的结果设置为user的实例
 //         $resultSetPrototype = new ResultSet();
-//         $resultSetPrototype->setArrayObjectPrototype(new fid());
+//         $resultSetPrototype->setArrayObjectPrototype(new navigation());
         
 //         //创建分页用的适配器，第2个参数为数据库adapter，使用全局默认的即可
 //         $adapter = new DbSelect($select, $this->tableGateway->getAdapter(), $resultSetPrototype);
@@ -84,10 +86,8 @@ class fidTable
 //         $paginator->setCurrentPageNumber($page);
 //         //设置一页要返回的结果条数
 //         $paginator->setItemCountPerPage($itemsPerPage);
-       
-        $results =$this->tableGateway->selectWith($select); //查询返回结果
-
-        return $results;
+        
+        return $paginator;
     }
     public function count(){
    
@@ -96,18 +96,18 @@ class fidTable
         return $num;
     }
 
-    public function saveFid(fid $fid)
+    public function saveid(navigation $navigation)
     {
         $data = array(
-            'fid' => $fid->fid,
-            'name'  => $fid->name
+        		'id' => $navigation->id,
+        		'name'  => $navigation->name
         );
 
-        $id = $fid->fid;
+        $id = $navigation->id;
         if (empty($id)) {
             $this->tableGateway->insert($data);
         } else {
-            if ($this->getFid($id)) {
+            if ($this->getid($id)) {
                 $this->tableGateway->update($data, array('id' => $id));
             } else {
                 throw new \Exception('Form id does not exist');
@@ -115,8 +115,8 @@ class fidTable
         }
     }
 
-    public function deleteFid($id)
+    public function deleteid($id)
     {
-        $this->tableGateway->delete(array('fid' => $id));
+        $this->tableGateway->delete(array('id' => $id));
     }
 }

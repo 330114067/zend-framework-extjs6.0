@@ -15,6 +15,7 @@ Ext.application({
 //		'ChartBarController'
 	],
 	launch:function(){
+		
 	},
 	show:function(user){
 		this.sessionUser = user;
