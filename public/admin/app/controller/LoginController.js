@@ -10,7 +10,7 @@ Ext.define('admin.controller.LoginController',{
 		var me = this;
 		Ext.Msg.wait('验证中,请稍候...', '提示信息');
 		Ext.Ajax.request({
-			url :  '../../admin/checkLogin',
+			url :  '../admin/checkLogin',
 			callback : function(opt, success, response){
 				Ext.Msg.hide();
 				if(success){
@@ -36,7 +36,7 @@ Ext.define('admin.controller.LoginController',{
 				form.submit({
 	                        waitMsg: '正在登录,请等待...',
 	                        clientValidation: false,// 要经过客户端验证的
-	                        url: 'login',
+	                        url: '../admin/login',
 	                        method: 'POST',
 	                        success: function(form, action){
 	                        	console.info(action);

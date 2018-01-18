@@ -7,32 +7,39 @@ Ext.define('admin.view.user.List',{
 	border : 0,
     initComponent: function(){
 	    this.columns = [
-	        {header: '编号',  dataIndex: 'id'},
-	        {header: '用户名', dataIndex: 'name' },
-	        {header: '用户类型ssssssssssssssssssssssss',  dataIndex: 'root',    
-     renderer: function(value, meta, record) {    
-         meta.attr = 'style="white-space:normal;"';     
-         return value;     
-    }  },
-	        {header: '姓名',  dataIndex: 'xm',  flex: 1},
-	        {header: '性别ssssssssssssssssssssssssssssss',  dataIndex: 'xb'},
-			{header: '年龄',  dataIndex: 'nl'},
-			{header: '编ssssssssssssssssss号',  dataIndex: 'id'},
-	        {header: '用户名', dataIndex: 'name'},
-	        {header: '用户类型',  dataIndex: 'root'},
-	        {header: '姓名',  dataIndex: 'xm'},
-	        {header: '性别',  dataIndex: 'xb'},
-	        {header: '用户名', dataIndex: 'name'},
-	        {header: '用户类型ssssssssssssssssssssssss',  dataIndex: 'root'},
-	        {header: '姓名',  dataIndex: 'xm'},
-	        {header: '性别ssssssssssssssssssssssssssssss',  dataIndex: 'xb'},
-			{header: '年龄',  dataIndex: 'nl'},
-			{header: '编ssssssssssssssssss号',  dataIndex: 'id'},
-	        {header: '用户名', dataIndex: 'name'},
-	        {header: '用户类型',  dataIndex: 'root'},
-	        {header: '姓名',  dataIndex: 'xm'},
-	        {header: '性别',  dataIndex: 'xb'},
-			{header: '年龄',  dataIndex: 'nl'}
+	        {header: '编号',  dataIndex: 'id',align: 'center',flex: true},
+	        {header: '姓名', dataIndex: 'name',align: 'center',flex: true },
+	        {header: '用户是否可以登录',  dataIndex: 'enabled',    
+			     renderer: function(value, meta, record) {  
+			     	var val;
+			     	if(value==1){
+			     		val='允许登录';
+			     	}else{
+			     		val='禁止登录';
+			     	}
+			         meta.attr = 'style="white-space:normal;"';     
+			         return val;     
+			    } ,flex: 0.3 ,align: 'center',flex: true
+		    },
+	        {header: '用户登录名',  dataIndex: 'login_name',align: 'center',flex: true},
+			{header: '用户名称的拼音字头',  dataIndex: 'py',align: 'center',flex: true},
+			{header: '性别',  dataIndex: 'gender',align: 'center',
+			 renderer: function(value, meta, record) {  
+			     	var val;
+			     	if(value==1){
+			     		val='男';
+			     	}else{
+			     		val='女';
+			     	}
+			         meta.attr = 'style="white-space:normal;"';     
+			         return val;     
+			    },flex: true},
+	        {header: '生日', dataIndex: 'birthday',align: 'center',flex: true},
+	        {header: '身份证号',  dataIndex: 'id_card_number',align: 'center',flex: true},
+	        {header: '联系电话',  dataIndex: 'tel',align: 'center',flex: true},
+	        {header: '备用联系电话',  dataIndex: 'tel02',align: 'center',flex: true},
+	        {header: '家庭住址', dataIndex: 'address',align: 'center',flex: true}
+	      
 	    ];
 		this.tbar=[{  
                     text : '新增用户',  
@@ -43,8 +50,9 @@ Ext.define('admin.view.user.List',{
                     action:'userDelete',
 					iconCls:'Userdelete'
                 },'-',{
+                	 id: 'seakey',
 					xtype:'textfield',
-					emptyText : '请输入查询关键词',
+					emptyText : '登录用户名或者姓名',
                     name : 'seakey'
                 },{  
                     text : '查询',  

@@ -8,16 +8,20 @@ Ext.define('admin.view.fid.List', {
 				this.columns = [{
 							header : '编号',
 							width : 85,
+							align: 'center',
+							
 							dataIndex : 'fid'
 						}, {
 							header : '功能名称',
 							width : 200,
+							align: 'center',
+							sortable: true,
 							dataIndex : 'name'
 						}, {
 							header : '链接地址',
 							dataIndex : '',
 							renderer : function(value, meta, record) {
-								meta.attr = 'style="white-space:normal;';
+								meta.attr = 'style="white-space:normal;align:"center"';
 								return value;
 							}
 						}];

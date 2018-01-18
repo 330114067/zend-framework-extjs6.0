@@ -2,13 +2,8 @@
 namespace Admin\Model;
 
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Text\Table\Row;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
-use Zend\Paginator\Paginator;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Adapter;
 use Zend\Db\Sql;
 class userTable
 {
@@ -61,13 +56,15 @@ class userTable
 
         return $row;
     }
-    public function getPaginator($keyword = NULL, $page = 1, $itemsPerPage = 10, $order = 'ASC'){
+    public function getPaginator($keyword = NULL, $start = 0, $limit =10, $order = 'ASC'){
         //新建select对象
-        $select = new Select('t_user');
+    	$select = new Select($this->tableGateway->getTable());
         //构建查询条件
         $closure = function (Where $where) use($keyword) {
-            if ($keyword != '') {
-                $where->like('title', '%' . $keyword . '%');//查询符合特定关键词的结果
+            if (!empty($keyword)) {
+                $where->like('login_name', '%' . $keyword . '%')//查询符合特定关键词的结果
+                ->or
+                ->like('name', '%' . $keyword . '%');
             }
         };
 
@@ -78,20 +75,11 @@ class userTable
         } else {
             $select->order('id ASC');//按标题排序
         }
-        //将返回的结果设置为user的实例
-        $resultSetPrototype = new ResultSet();
-        $resultSetPrototype->setArrayObjectPrototype(new user());
-       
-        //创建分页用的适配器，第2个参数为数据库adapter，使用全局默认的即可
-        $adapter = new DbSelect($select, $this->tableGateway->getAdapter(), $resultSetPrototype);
-        //新建分页
-        $paginator = new Paginator($adapter);
-        //设置当前页数
-        $paginator->setCurrentPageNumber($page);
-        //设置一页要返回的结果条数
-        $paginator->setItemCountPerPage($itemsPerPage);
+		$select->limit($limit);
+		$select->offset($start);
+		$results=$this->tableGateway->selectWith($select);
         
-        return $paginator;
+		return $results;
     }
     public function count(){
    
@@ -102,38 +90,42 @@ class userTable
 
     public function saveUser(user $user)
     {
-        $data = array(
-            'enabled' => $user->enabled,
-            'login_name' => $user->login_name,
-            'name'  => $user->name,
-            'org_id' => $user->org_id,
-            'org_code'  => $user->org_code,
-            'password'  => $user->password,
-            'py'  => $user->py,
-            'gender'  => $user->gender,
-            'birthday'  => $user->birthday,
-            'id_card_number'  => $user->id_card_number,
-            'tel'  => $user->tel,
-            'tel02'  => $user->tel02,
-            'address'  => $user->address,
-            'data_org'  => $user->data_org,
-            'company_id'  => $user->company_id,
-        );
+    	$data=array();
+    	foreach ($user as $key=>$value){
+    		if(!empty($value)){
+    			$data[$key]=$value;
+    		}
+    	}
 
         $id = $user->id;
         if (empty($id)) {
-            $this->tableGateway->insert($data);
+            $return=$this->tableGateway->insert($data);
         } else {
             if ($this->getUser($id)) {
-                $this->tableGateway->update($data, array('id' => $id));
+            	$this->tableGateway->update($data, array('id' => $id));
             } else {
-                throw new \Exception('Form id does not exist');
+            	$return=false;
             }
         }
+        return $return;
     }
 
-    public function deleteUser($id)
+    public function deleteUser($data)
     {
-        $this->tableGateway->delete(array('id' => $id));
+    	if(count($data) == count($data,1)){
+    		$return=$this->tableGateway->delete(array('id' => $data['id']));
+    		if(!$return){
+    			$return=false;
+    		}
+    	}else{
+    		foreach ($data as $key=>$value){
+    			$return=$this->tableGateway->delete(array('id' => $value['id']));
+    			if(!$return){
+    				$return=false;
+    			}
+    		}
+    	}
+        
+        return $return;
     }
 }

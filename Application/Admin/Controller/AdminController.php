@@ -6,6 +6,7 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;  
 use Zend\Captcha\Image;
 use Zend\Session\Storage\SessionArrayStorage;
+use Admin\Model\user;
 
 
 class AdminController extends AbstractActionController
@@ -73,6 +74,7 @@ class AdminController extends AbstractActionController
 	        $units[] = $unit;
 	       
 	    }
+	  
 	    return new JsonModel($units);  
 	}
 	
@@ -85,12 +87,22 @@ class AdminController extends AbstractActionController
 	    ));	    
 	}
 	public function configAction(){
-	    $data["children"]=array(
-	        array('text'=>'网络设置','leaf'=>true,'xtypeClass'=>'configNetset'),
-	        array('text'=>'数据库设置','leaf'=>true,'xtypeClass'=>'configDbset'),
-	        array('text'=>'系统功能','leaf'=>true,'xtypeClass'=>'fidList')
-	    );
-	    return new JsonModel($data);  
+		$sm = $this->getServiceLocator();
+		
+		$navigation = $sm->get('Admin\Model\navigationTable');
+		$data=$navigation->fetchAll(1)->toArray();
+		$units = array();
+		foreach ($data as $key=>$unit) {
+			$units[$key]['text'] = $unit['name'];
+			$units[$key]['leaf'] = $unit['leaf'];
+			$units[$key]['xtypeClass'] = $unit['xtypeClass'];			
+		}
+		return new JsonModel($units);
+// 	    $data["children"]=array(
+// 	        array('text'=>'网络设置','leaf'=>true,'xtypeClass'=>'configNetset'),
+// 	        array('text'=>'数据库设置','leaf'=>true,'xtypeClass'=>'configDbset'),
+// 	        array('text'=>'系统功能','leaf'=>true,'xtypeClass'=>'fidList')
+// 	    );
 	}
 	public function distributeAction(){
 	    $data["children"]=array(
@@ -106,17 +118,40 @@ class AdminController extends AbstractActionController
 	    );
 	    return new JsonModel($data);
 	}
+	public  function getmenuAction(){
+		$sm = $this->getServiceLocator();
+		
+		$navigation = $sm->get('Admin\Model\navigationTable');
+		$data=$navigation->fetchAll(0)->toArray();
+		$units = array();
+		foreach ($data as $key=>$unit) {
+			$units[$key]['title'] = $unit['name'];
+			$units[$key]['xtype'] = 'treepanel';
+			$units[$key]['rootVisible'] = 'false';
+			$units[$key]['margin'] = 0;
+			$units[$key]['iconCls'] = $unit['iconCls'];
+			$units[$key]['store'] = $unit['store'];
+			
+		}
+		return new JsonModel($units);
+// 		$data=array(
+// 				array('title'=>'系统管理','xtype'=>'treepanel','rootVisible'=>'false','margin'=>0,'iconCls'=>'Bulletwrench','store'=>'admin.store.menu.Config'),
+// 				array('title'=>'数据查询','xtype'=>'treepanel','rootVisible'=>'false','margin'=>0,'iconCls'=>'Databaseedit','store'=>'admin.store.menu.Inquiry'),
+// 				array('title'=>'分发数据','xtype'=>'treepanel','rootVisible'=>'false','margin'=>0,'iconCls'=>'Pagewhiteworld','store'=>'admin.store.menu.Distribute')
+// 		);
+	}
+	
+	
 	public function getInfoAction(){
 	    $return=array();
-	    $p=($_REQUEST['start']+$_REQUEST['limit'])/$_REQUEST['limit'];
-	    $data=$this->getUserTable()->getPaginator('', $p,  $_REQUEST['limit'],'DESC');
+	    $data=$this->getUserTable()->getPaginator(isset($_REQUEST['seakey'])?$_REQUEST['seakey']:null,(int)$_REQUEST['start'],(int)$_REQUEST['limit'],'DESC');
 	    $units = array();
 	   
 	    foreach ($data as $unit) {
 	        $units[] = $unit;
 	        
 	    }
-	   
+	    
 	    $return['success']=true;
 	    $return['totalCount']=$this->getUserTable()->count();
 	    $return['data']=$units;
@@ -124,8 +159,7 @@ class AdminController extends AbstractActionController
 	}
 	public function getFidAction(){
 	    $return=array();
-	    $p=($_REQUEST['start']+$_REQUEST['limit'])/$_REQUEST['limit'];
-	    $data=$this->getFidTable()->getPaginator('', $p,  $_REQUEST['limit'],'DESC');
+	    $data=$this->getFidTable()->getPaginator('', (int)$_REQUEST['start'],(int)$_REQUEST['limit'],'DESC');
 	    $units = array();
 	   
 	    foreach ($data as $unit) {
@@ -139,16 +173,44 @@ class AdminController extends AbstractActionController
 	    $return['data']=$units;
 	    return new JsonModel($return);
 	}
-	public function delInfofoAction(){
-	    $data['success']=false;
+	public function delInfoAction(){
+		$httpContent = file_get_contents('php://input', 'r');
+		$data=json_decode($httpContent,true);
+		
+		$return=$this->getUserTable()->deleteUser($data);
+		if($return){
+			$data['success']=false;
+		}else{
+			$data['success']=true;
+		}
+		
 	    return new JsonModel($data);
 	}
 	public function editInfoAction(){
-	    $data['success']=false;
-	    return new JsonModel($data);
+		$httpContent = file_get_contents('php://input', 'r');
+		$data=json_decode($httpContent,true);
+		$user = new user();
+		$user->exchangeArray($data);
+		$success=$this->getUserTable()->saveUser($user);
+		if($success){
+			$data['success']=false;
+		}else{
+			$data['success']=true;
+		}
+		
+		return new JsonModel($data);
 	}
 	public function addInfoAction(){
-	    $data['success']=false;
+		$httpContent = file_get_contents('php://input', 'r');
+		$data=json_decode($httpContent,true);
+		$user = new user();
+		$user->exchangeArray($data);
+		$success=$this->getUserTable()->saveUser($user);
+		if($success){
+			$data['success']=true;
+		}else {
+			$data['success']=false;
+		}		
 	    return new JsonModel($data);
 	}
 	public function logoutAction(){

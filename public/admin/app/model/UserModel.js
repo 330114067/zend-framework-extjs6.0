@@ -7,19 +7,40 @@ Ext.define('admin.model.UserModel', {
 						name : 'name',
 						type : 'string'
 					}, {
+						name : 'enabled',
+						type : 'int'
+					}, {
 						name : 'password',
 						type : 'string'
 					}, {
-						name : 'root',
+						name : 'group_id',
 						type : 'int'
 					}, {
-						name : 'xm',
-						type : 'string'
-					}, {
-						name : 'xb',
-						type : 'string'
-					}, {
-						name : 'nl',
+						name : 'org_id',
 						type : 'int'
+					}, {
+						name : 'login_name',
+						type : 'string'
+					}, {
+						name : 'gender',
+						type : 'string'
+					}, {
+						name : 'py',
+						type : 'string'
+					}, {
+						name : 'tel',
+						type : 'string'
+					}, {
+						name : 'birthday',
+						type : 'string'
+					}, {
+						name : 'id_card_number',
+						type : 'string'
+					}, {
+						name : 'tel02',
+						type : 'string'
+					}, {
+						name : 'address',
+						type : 'string'
 					}]
 		});

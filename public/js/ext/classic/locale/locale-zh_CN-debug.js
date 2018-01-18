@@ -128,6 +128,8 @@ Ext.define("Ext.locale.zh_CN.form.field.Number", {
 			maxText : "该输入项的最大值是 {0}",
 			nanText : "{0} 不是有效数值"
 		});
+		
+
 
 Ext.define("Ext.locale.zh_CN.form.field.Date", {
 			override : "Ext.form.field.Date",

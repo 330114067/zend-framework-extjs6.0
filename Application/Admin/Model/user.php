@@ -13,7 +13,7 @@ class user implements InputFilterAwareInterface
     public $login_name;
     public $name;
     public $org_id;
-    public $org_code;
+    public $group_id;
     public $password;
     public $py;
     public $gender;
@@ -23,17 +23,16 @@ class user implements InputFilterAwareInterface
     public $tel02;
     public $address;
     public $data_org;
-    public $company_id;
 	protected $inputFilter;
 
     public function exchangeArray($data)
     {
-        $this->id     = (!empty($data['id'])) ? $data['id'] : null;
-        $this->enabled = (!empty($data['enabled'])) ? $data['enabled'] : null;
+        $this->id     = (!empty($data['id'])) ? (int)$data['id'] : null;
+        $this->enabled = (!empty($data['enabled'])) ? (int)$data['enabled'] : null;
         $this->login_name  = (!empty($data['login_name'])) ? $data['login_name'] : null;
         $this->name = (!empty($data['name'])) ? $data['name'] : null;
-        $this->org_id  = (!empty($data['org_id'])) ? $data['org_id'] : null;
-        $this->org_code = (!empty($data['org_code'])) ? $data['org_code'] : null;
+        $this->org_id  = (!empty($data['org_id'])) ? (int)$data['org_id'] : null;
+        $this->group_id = (!empty($data['group_id'])) ?(int) $data['group_id'] : null;
         $this->password  = (!empty($data['password'])) ? $data['password'] : null;
         $this->py = (!empty($data['py'])) ? $data['py'] : null;
         $this->gender  = (!empty($data['gender'])) ? $data['gender'] : null;
@@ -43,7 +42,6 @@ class user implements InputFilterAwareInterface
         $this->tel02  = (!empty($data['tel02'])) ? $data['tel02'] : null;
         $this->address = (!empty($data['address'])) ? $data['address'] : null;
         $this->data_org  = (!empty($data['data_org'])) ? $data['data_org'] : null;
-        $this->company_id = (!empty($data['company_id'])) ? $data['company_id'] : null;
     }
 	
     // 添加以下方法
@@ -65,23 +63,13 @@ class user implements InputFilterAwareInterface
             $factory     = new InputFactory();
 
             $inputFilter->add($factory->createInput(array(
-                'name'     => 'id',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 225,
-                        ),
-                    ),
-                ),
+            		'name'     => 'id',
+            		'required' => true,
+            		'filters'  => array(
+            				array('name' => 'Int'),
+            		),
             )));
+            
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'enabled',
                 'required' => true,
@@ -127,42 +115,23 @@ class user implements InputFilterAwareInterface
                     ),
                 ),
             )));
+            
             $inputFilter->add($factory->createInput(array(
-                'name'     => 'org_id',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 225,
-                        ),
-                    ),
-                ),
+            		'name'     => 'org_id',
+            		'required' => true,
+            		'filters'  => array(
+            				array('name' => 'Int'),
+            		),
             )));
+            
             $inputFilter->add($factory->createInput(array(
-                'name'     => 'org_code',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 225,
-                        ),
-                    ),
-                ),
+            		'name'     => 'group_id',
+            		'required' => true,
+            		'filters'  => array(
+            				array('name' => 'Int'),
+            		),
             )));
+            
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'password',
                 'required' => true,
@@ -309,24 +278,6 @@ class user implements InputFilterAwareInterface
             )));
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'data_org',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 225,
-                        ),
-                    ),
-                ),
-            )));
-            $inputFilter->add($factory->createInput(array(
-                'name'     => 'company_id',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
